@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+/*
 public class Account {
 
     private List<Transaction> transactions;
-    private Customer customer;
+   // private Customer customer;
 
     public Account(Customer customer) {
         this.transactions = new ArrayList<>();
@@ -41,3 +41,4 @@ public class Account {
         return transactions;
     }
 }
+*/
