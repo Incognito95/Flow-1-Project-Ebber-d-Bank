@@ -59,7 +59,3 @@ Hvis I selv kan finde på flere smarte funktionaliteter, så fyld bare på. F.ek
 bruge koden som udgangspunkt, men er også velkomne til at begynde
 forfra, hvis I vælger at bygge systemet på en anden måde.
 6. I skal styre projektet via Projekt og Issues i Github. [Se evt. tutorial her.](https://cphbusiness.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=e887d535-f9e4-43e1-b8ba-acd000c11d34)
-
-### Afleveringsstatus
-
-Denne opgave accepterer afleveringer fra **torsdag, 18. februar 2021, 15:00**
