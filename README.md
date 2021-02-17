@@ -62,4 +62,4 @@ forfra, hvis I vælger at bygge systemet på en anden måde.
 
 ### Afleveringsstatus
 
-Denne opgave accepterer afleveringer fra **torsdag, 17. februar 2021, 12:00**
+Denne opgave accepterer afleveringer fra **torsdag, 18. februar 2021, 15:00**
