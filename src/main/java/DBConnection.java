@@ -59,30 +59,21 @@ public class DBConnection {
         }
 
 
+        // create - insert amount
         public void insertAmount () {
 
             try {
-                System.out.println("Insert amount:");
-                System.out.println("============================");
                 Scanner scanner = new Scanner(System.in);
-
-                System.out.print("Transaction ID: ");
-                String transaction_id = scanner.nextLine();
-                System.out.println(transaction_id);
-
-                System.out.print("Insert amount: ");
+                System.out.print("Enter amount: ");
                 String amount = scanner.nextLine();
                 System.out.println(amount);
-
-                System.out.print("Insert date: ");
+                System.out.print("Enter date: ");
                 String date = scanner.nextLine();
                 System.out.println(date);
 
-
                 try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:8889/edderodbank", "root", "root");
-                     PreparedStatement statement = connection.prepareStatement("INSERT INTO transaction SET transaction_id, amount = ?, date = ?")) {
-                    statement.setString(1, transaction_id);
-                    statement.setString(2, amount);
+                     PreparedStatement statement = connection.prepareStatement("INSERT INTO transaction SET amount = ?, date = ?")) {
+                    statement.setString(1, amount);
                     statement.setString(2, date);
                     int rows = statement.executeUpdate();
                 } catch (SQLException ex) {
@@ -92,6 +83,7 @@ public class DBConnection {
             } catch (Exception e) {
                 System.out.println(e);
             }
+
         }
 
 
@@ -102,15 +94,14 @@ public class DBConnection {
                 Class.forName("com.mysql.jdbc.Driver");
 
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:8889/edderodbank", "root", "root");
-                PreparedStatement sql = con.prepareStatement("SELECT customer_id FROM customers INNER JOIN account ON customers.customer_id = account.account_id");
+                PreparedStatement sql = con.prepareStatement("SELECT amount, date FROM transaction");
 
                 Statement stmt = con.createStatement();
-                String query = "SELECT transaction_id, amount, date FROM transaction";
+                String query = "SELECT amount, date FROM transaction";
                 ResultSet rs = stmt.executeQuery(query);
 
 
                 while (rs.next()) {
-                    System.out.println("Transaction id: " + rs.getInt("transaction_id"));
                     System.out.println("Amount: " + rs.getString("amount"));
                     System.out.println("Date: " +  rs.getString("date"));
                     System.out.println("----------");
@@ -122,11 +113,34 @@ public class DBConnection {
         }
 
 
-        public void runMySQL () {
+        public void cannotShowAmountBelowZero() {
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:8889/edderodbank", "root", "root");
+                PreparedStatement sql = con.prepareStatement("SELECT amount, CASE WHEN amount <= 0 THEN 'amount cannot be less than 0' END AS transaction FROM transaction");
+
+                Statement stmt = con.createStatement();
+                String query = "SELECT amount, CASE WHEN amount <= 0 THEN 'amount cannot be less than 0' END AS transaction FROM transaction";
+                ResultSet rs = stmt.executeQuery(query);
+
+
+                while (rs.next()) {
+                    System.out.println("Amount: " + rs.getString("amount"));
+                    System.out.println("Date: " +  rs.getString("date"));
+                    System.out.println("----------");
+                }
+
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+
+        public void runMySQL(){
             createCustomer(); // create - create customer
             showCustomers(); // read - show customers
             insertAmount(); // create - insert amount
             showAmount(); // read - show amount
+            cannotShowAmountBelowZero(); // create - prevent payment from being below 0
         }
-
     }

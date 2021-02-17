@@ -1,6 +1,8 @@
+import org.junit.jupiter.api.Test;
+
 import java.util.Date;
 
-public class Transaction {
+class Transaction {
 
     private int amount;
     private Date date;
@@ -14,7 +16,16 @@ public class Transaction {
         return amount;
     }
 
+
     public Date getDate() {
         return date;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "amount=" + amount +
+                ", date=" + date +
+                '}';
     }
 }
