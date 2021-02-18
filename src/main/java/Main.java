@@ -16,8 +16,6 @@ public class Main {
     public static void main(String[] args) {
         kontrolpanel = new Kontrolpanel();
        dbConnection = new DBConnection();
-        Employee employee = new Employee();
-        employee.transferMoney();
         VisKontrolpanel();
 
         account1.depositAmount(200);
