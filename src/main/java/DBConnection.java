@@ -66,7 +66,7 @@ public class DBConnection {
 
 
                 try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:8889/edderodbank", "root", "root");
-                     PreparedStatement statement = connection.prepareStatement("INSERT INTO transaction SET amount = ?, date = ?")) {
+                     PreparedStatement statement = connection.prepareStatement("INSERT INTO account SET account_id = ?, date = ?")) {
                     statement.setInt(1, amount);
                     statement.setDate(2, (Date) new java.util.Date());
                     int rows = statement.executeUpdate();
