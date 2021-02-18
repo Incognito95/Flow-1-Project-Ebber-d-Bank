@@ -7,9 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="EbberødBank" />
+        <module name="EbberoedBank" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="EbberoedBank" target="8" />
       <module name="EbberødBank" target="7" />
     </bytecodeTargetLevel>
   </component>

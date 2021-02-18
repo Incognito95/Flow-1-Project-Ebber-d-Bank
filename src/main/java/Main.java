@@ -1,5 +1,4 @@
-import javax.security.auth.kerberos.KerberosCredMessage;
-import java.util.List;
+
 import java.util.Scanner;
 
 public class Main {
