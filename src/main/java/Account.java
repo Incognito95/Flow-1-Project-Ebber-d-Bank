@@ -27,11 +27,14 @@ public class Account {
 
     public int withDrawAmount(int amount) {
         int newSum = 0;
+        if (getBalance() > amount) {
+            transactions.add(new Transaction(-amount, new Date()));
+            // indsøt transaktionen i databsaen
+        }
+
         // TODO: skal kodes og returnere ny saldo. Smid fejl hvis amount > saldo
 
-//        transactions.remove(amount) = newSum
-//        getBalance()-withDrawAmount(amount) =newSum;
-        return newSum;
+        return getBalance();
     }
 
     public int depositAmount(int amount){

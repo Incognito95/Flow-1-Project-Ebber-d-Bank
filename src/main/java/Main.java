@@ -41,12 +41,28 @@ public class Main {
                         dbConnection.showCustomers();
                         kontrolpanel.displayOptions();
                         break;
-                    case "3": // Show customer
-                        dbConnection.insertAmount();
+                    case "3": // Insert amount
+                        Scanner scanner = new Scanner(System.in);
+                        System.out.print("Enter amount: ");
+                        String amount = scanner.nextLine();
+                        System.out.println(amount);
+
+                        dbConnection.insertAmount(Integer.parseInt(amount));  // Indsæt i DB
+                        account1.depositAmount(Integer.parseInt(amount));   // INdsæt i Java arrayliste
+
                         kontrolpanel.displayOptions();
                         break;
                     case "4": // Show customer
                         dbConnection.showAmount();
+                        kontrolpanel.displayOptions();
+                        dbConnection.amountCannotBeLessThanZero();
+                        break;
+                    case "5": // Show customer
+                        dbConnection.createEmployee();
+                        kontrolpanel.displayOptions();
+                        break;
+                    case "6": // Show customer
+                        dbConnection.showEmployee();
                         kontrolpanel.displayOptions();
                         break;
                     case "0":

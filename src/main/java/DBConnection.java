@@ -1,5 +1,5 @@
+
 import java.sql.*;
-import java.sql.DriverManager;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
@@ -60,21 +60,15 @@ public class DBConnection {
 
 
         // create - insert amount
-        public void insertAmount () {
+        public void insertAmount (int amount) {
 
             try {
-                Scanner scanner = new Scanner(System.in);
-                System.out.print("Enter amount: ");
-                String amount = scanner.nextLine();
-                System.out.println(amount);
-                System.out.print("Enter date: ");
-                String date = scanner.nextLine();
-                System.out.println(date);
+
 
                 try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:8889/edderodbank", "root", "root");
                      PreparedStatement statement = connection.prepareStatement("INSERT INTO transaction SET amount = ?, date = ?")) {
-                    statement.setString(1, amount);
-                    statement.setString(2, date);
+                    statement.setInt(1, amount);
+                    statement.setDate(2, (Date) new java.util.Date());
                     int rows = statement.executeUpdate();
                 } catch (SQLException ex) {
                     System.out.println("Error while communicating with the database");
@@ -100,6 +94,10 @@ public class DBConnection {
                 String query = "SELECT amount, date FROM transaction";
                 ResultSet rs = stmt.executeQuery(query);
 
+                // amount cannot be less than 0
+                if (query == null) {
+                    System.out.println("amount cannot be less than 0");
+                }
 
                 while (rs.next()) {
                     System.out.println("Amount: " + rs.getString("amount"));
@@ -113,15 +111,15 @@ public class DBConnection {
         }
 
 
-        public void cannotShowAmountBelowZero() {
+        public void transferAmount() {
             try {
                 Class.forName("com.mysql.jdbc.Driver");
 
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:8889/edderodbank", "root", "root");
-                PreparedStatement sql = con.prepareStatement("SELECT amount, CASE WHEN amount <= 0 THEN 'amount cannot be less than 0' END AS transaction FROM transaction");
+                PreparedStatement sql = con.prepareStatement("SELECT amount, date FROM transaction");
 
                 Statement stmt = con.createStatement();
-                String query = "SELECT amount, CASE WHEN amount <= 0 THEN 'amount cannot be less than 0' END AS transaction FROM transaction";
+                String query = "SELECT amount, date FROM transaction";
                 ResultSet rs = stmt.executeQuery(query);
 
 
@@ -136,11 +134,96 @@ public class DBConnection {
             }
         }
 
+        public void createEmployee() {
+            try {
+                Scanner scanner = new Scanner(System.in);
+                System.out.print("Enter name: ");
+                String name = scanner.nextLine();
+                System.out.println(name);
+                System.out.print("Enter amount: ");
+                String amount = scanner.nextLine();
+                System.out.println(amount);
+
+                try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:8889/edderodbank", "root", "root");
+                     PreparedStatement statement = connection.prepareStatement("INSERT INTO employee SET name = ?, amount = ?")) {
+                    statement.setString(1, name);
+                    statement.setString(2, amount);
+                    int rows = statement.executeUpdate();
+                } catch (SQLException ex) {
+                    System.out.println("Error while communicating with the database");
+                }
+
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+
+
+    public void showEmployee() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:8889/edderodbank", "root", "root");
+            PreparedStatement sql = con.prepareStatement("SELECT employee_id, name, amount FROM employee");
+
+            Statement stmt = con.createStatement();
+            String query = "SELECT employee_id, name, amount FROM employee";
+            ResultSet rs = stmt.executeQuery(query);
+
+
+            while (rs.next()) {
+                System.out.println("Employee ID: " + rs.getString("employee_id"));
+                System.out.println("Name: " +  rs.getString("name"));
+                System.out.println("amount: " +  rs.getString("amount"));
+                System.out.println("----------");
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+
+
+
+
+        public void amountCannotBeLessThanZero() {
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:8889/edderodbank", "root", "root");
+                PreparedStatement sql = con.prepareStatement("SELECT amount FROM transaction WHERE amount <= 0");
+
+                Statement stmt = con.createStatement();
+                String query = "SELECT amount FROM transaction WHERE amount <= 0";
+                ResultSet rs = stmt.executeQuery(query);
+
+
+                while (rs.next()) {
+                    System.out.println("Amount: " + rs.getString("amount"));
+                    System.out.println("Date: " +  rs.getString("date"));
+                    System.out.println("----------");
+                }
+
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+
+
+
+
+
+
         public void runMySQL(){
             createCustomer(); // create - create customer
             showCustomers(); // read - show customers
-            insertAmount(); // create - insert amount
+            insertAmount(100); // create - insert amount
             showAmount(); // read - show amount
-            cannotShowAmountBelowZero(); // create - prevent payment from being below 0
+            transferAmount(); // transfer amount from one
+            amountCannotBeLessThanZero(); // amount cannot be less than 0
+            createEmployee(); // create - create employee
+            showEmployee(); // read - show employee
+
         }
     }
