@@ -17,8 +17,8 @@ public class DBConnection {
                 String city = scanner.nextLine();
                 System.out.println(city);
 
-                try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:8889/edderodbank", "root", "root");
-                     PreparedStatement statement = connection.prepareStatement("INSERT INTO customers SET full_name = ?, city = ?")) {
+                try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/bank", "root", "root");
+                     PreparedStatement statement = connection.prepareStatement("INSERT INTO customers SET name = ?, city = ?")) {
                     statement.setString(1, customerName);
                     statement.setString(2, city);
                     int rows = statement.executeUpdate();

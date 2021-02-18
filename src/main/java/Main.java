@@ -10,7 +10,6 @@ public class Main {
    static Account account1 = new Account(HH);
     Account account2 = new Account(Ermin);
 
-
     static DBConnection dbConnection;
     public static void main(String[] args) {
         kontrolpanel = new Kontrolpanel();
