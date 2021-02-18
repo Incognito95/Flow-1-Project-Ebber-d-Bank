@@ -63,12 +63,15 @@ public class DBConnection {
         public void insertAmount (int amount) {
 
             try {
+                Scanner scanner = new Scanner(System.in);
+                System.out.print("Date: ");
+                String date = scanner.nextLine();
+                System.out.println(date);
 
-
-                try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:8889/edderodbank", "root", "root");
-                     PreparedStatement statement = connection.prepareStatement("INSERT INTO account SET account_id = ?, date = ?")) {
-                    statement.setInt(1, amount);
-                    statement.setDate(2, (Date) new java.util.Date());
+                try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/bank", "root", "root");
+                     PreparedStatement statement = connection.prepareStatement("INSERT INTO transaction SET date = NOW(), amount = ?")) {
+                    statement.setString(1, date);
+                    statement.setString(2, String.valueOf(amount));
                     int rows = statement.executeUpdate();
                 } catch (SQLException ex) {
                     System.out.println("Error while communicating with the database");
@@ -88,20 +91,17 @@ public class DBConnection {
                 Class.forName("com.mysql.jdbc.Driver");
 
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:8889/edderodbank", "root", "root");
-                PreparedStatement sql = con.prepareStatement("SELECT amount, date FROM transaction");
+                PreparedStatement createOrder = con.prepareStatement("SELECT transaction_id, amount, date FROM transaction");
 
                 Statement stmt = con.createStatement();
-                String query = "SELECT amount, date FROM transaction";
+                String query = "SELECT transaction_id, amount, date FROM transaction";
                 ResultSet rs = stmt.executeQuery(query);
 
-                // amount cannot be less than 0
-                if (query == null) {
-                    System.out.println("amount cannot be less than 0");
-                }
 
                 while (rs.next()) {
+                    System.out.println("Transaction ID: " + rs.getString("transaction_id"));
                     System.out.println("Amount: " + rs.getString("amount"));
-                    System.out.println("Date: " +  rs.getString("date"));
+                    System.out.println("date: " +  rs.getString("date"));
                     System.out.println("----------");
                 }
 
